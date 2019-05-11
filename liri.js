@@ -22,8 +22,9 @@ for (var i = 3; i < nodeArgs.length; i++) {
     }
 }
 
-
+//Switch to select  the command to use
 switch (command) {
+    //concert-this >>
     case ("concert-this"):
         concertThis(search);
         break;
@@ -37,7 +38,7 @@ switch (command) {
         movieThis(search);
         break;
     case ("do-what-it-says"):
-
+            doWhat();
         break;
     default:
         console.log("Please type concert-this / spotify-this-song /movie-this / do-what-it-says + your search. Try again.");
@@ -107,7 +108,7 @@ function spotifyThisSong(search) {
         .then(function (response) {
             console.log(
                 "========================================\n" +
-                "Found " + response.tracks.items.length + " songs"
+                "Found " + response.tracks.items.length + " songs related to your search"
             );
 
             for (var k = 0; k < response.tracks.items.length; k++) {
@@ -125,3 +126,15 @@ function spotifyThisSong(search) {
         });
 };
 
+function doWhat(){
+    fs.readFile("random.txt","utf8",function(error, data){
+        if(error){
+            return console.log(error);
+        }else{
+            var dataArr = data.split(",");
+            console.log(dataArr);
+            spotifyThisSong(dataArr[1]);
+        }
+    });
+
+}
