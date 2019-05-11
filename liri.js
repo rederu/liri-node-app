@@ -22,9 +22,6 @@ switch (command) {
         concertThis(search);
         break;
     case ("spotify-this-song"):
-        if (search === "") {
-            search = "The+Sign+Ace+of+Base";
-        }
         logginIt(thisCommand);
         spotifyThisSong(search);
         break;
@@ -71,7 +68,7 @@ function movieThis(search) {
 //For Concert-This
 function concertThis(search) {
     if (search === "" || search === undefined) {
-        var isUndefined =["Please add a band name or an artist name to your search\n"];
+        var isUndefined ="Please add a band name or an artist name to your search\n";
         logginIt(isUndefined);
     } else {
         var bandUrl = "https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp";
@@ -105,7 +102,9 @@ function concertThis(search) {
 };
 //For Spotify-This-Song
 function spotifyThisSong(search) {
-
+    if (search === "" || search=== undefined) {
+        search = "The+Sign+Ace+of+Base";
+    }
     spotify.search({ type: 'track', query: search, limit: 5 })
         .then(function (response) {
             var spotifyResults =[
