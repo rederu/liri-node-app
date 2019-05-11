@@ -11,8 +11,8 @@ LIRI means Language Interpretation and Recognition Interface and, also, LIRI is 
   <h3</h3>
   LIRI is a command interface application so, in order to run it, a command line terminal is needed. Also, fter cloning this respository you should create a .env file that it should contain:
   <ul>
-  <li>SPOTIFY_ID = your-spotify-ID</li>
-  <li>SPOTIFY_SECRET = your-spotify-secret</li>
+  SPOTIFY_ID = your-spotify-ID<
+  SPOTIFY_SECRET = your-spotify-secret
   </ul>
   If you don't know how to get your Spotify Id or yout Spotify Secret, please visit: https://developer.spotify.com/my-applications/#!/ and log in with your Spotify account. Register a new applcation to be used with the Spotify API. you can fill in whatever you would like for these fields.
   
