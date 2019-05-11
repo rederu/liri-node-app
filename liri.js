@@ -76,9 +76,6 @@ function concertThis(search) {
         axios.get(bandUrl).then(
             function (response) {
                 if (response.data.length > 0) {
-                    var concertResults = ["\n========================================",
-                                        "Found " + (response.data.length) + " " + search + " Concerts"].join("\n");
-                    logginIt(concertResults);
                     for (var j = 0; j < response.data.length; j++) {
                         var fixDate = moment(response.data[j].datetime.replace("T", " ")).format("LLL");
                         var concertLocation = response.data[j].venue.city + ", " + response.data[j].venue.country
@@ -92,6 +89,9 @@ function concertThis(search) {
                         ].join("\n");
                         logginIt(results);
                     };
+                    var concertResults = ["\n========================================",
+                                        "Found " + (response.data.length) + " " + search + " Concerts"].join("\n");
+                    logginIt(concertResults);
                 } else {
                     var noConcerts = "No results found for " + search;
                     logginIt(noConcerts);
@@ -107,11 +107,6 @@ function spotifyThisSong(search) {
     }
     spotify.search({ type: 'track', query: search, limit: 5 })
         .then(function (response) {
-            var spotifyResults =[
-                "\n========================================" ,
-                "Found " + response.tracks.items.length + " songs related to your search"
-            ].join("\n");
-            logginIt(spotifyResults);
 
             for (var k = 0; k < response.tracks.items.length; k++) {
                 var spotifySongs =[
@@ -123,6 +118,11 @@ function spotifyThisSong(search) {
                 ].join("\n");
                 logginIt(spotifySongs);
             }
+            var spotifyResults =[
+                "\n========================================" ,
+                "Found " + response.tracks.items.length + " songs related to your search"
+            ].join("\n");
+            logginIt(spotifyResults);
         })
         .catch(function (err) {
             console.log(err);
