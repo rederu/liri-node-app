@@ -4,7 +4,8 @@ require("dotenv").config();
 var axios = require("axios");
 var keys = require("./keys.js");
 var Spotify = require("node-spotify-api");
-var moment = require('moment');
+var moment = require("moment");
+var fs = require("fs");
 
 //Access keys
 var spotify = new Spotify(keys.spotify);
@@ -27,15 +28,12 @@ switch (command) {
         concertThis(search);
         break;
     case ("spotify-this-song"):
-        if (search === undefined) {
-            search = "The+Sign";
+        if (search === "") {
+            search = "The+Sign+Ace+of+Base";
         }
         spotifyThisSong(search);
         break;
     case ("movie-this"):
-       /* if (search === undefined) {
-            search = "Mr.Nobody";
-        }*/
         movieThis(search);
         break;
     case ("do-what-it-says"):
@@ -47,6 +45,12 @@ switch (command) {
 
 //For Movie-This
 function movieThis(search) {
+    if (search === "" || search === undefined) {
+        console.log(
+            " If you haven't watched 'Mr. Nobody', then you should: http://www.imdb.com/title/tt0485947/" +
+            "\n It's on Netflix!!"
+        );
+    } else {
         var queryUrl = "http://www.omdbapi.com/?t=" + search + "&tomatoes=true&apikey=trilogy";
         axios.get(queryUrl).then(
             function (response) {
@@ -65,31 +69,36 @@ function movieThis(search) {
                 );//End console log
             } //End function
         );//end axios
+    }//end Else
 };//end movieThis
 
 //For Concert-This
 function concertThis(search) {
-    var bandUrl = "https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp";
-    axios.get(bandUrl).then(
-        function (response) {
-            if (response.data.length > 0) {
-                console.log("========================================");
-                console.log("Found " + (response.data.length) + " " + search + " Concerts: ");
-                for (var j = 0; j < response.data.length; j++) {
-                    console.log(
-                        "========================================\n" +
-                        " Artist: " + response.data[j].lineup[0] +
-                        "\n Venue: " + response.data[j].venue.name +
-                        "\n Venue Location: " + response.data[j].venue.city + ", " + response.data[j].venue.country +
-                        "\n Date: " + moment(response.data[j].datetime.replace("T", " ")).format("LLL")
+    if (search === "" || search === undefined) {
+        console.log("Please add a band name or an artist name to your search");
+    } else {
+        var bandUrl = "https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp";
+        axios.get(bandUrl).then(
+            function (response) {
+                if (response.data.length > 0) {
+                    console.log("========================================");
+                    console.log("Found " + (response.data.length) + " " + search + " Concerts: ");
+                    for (var j = 0; j < response.data.length; j++) {
+                        console.log(
+                            "========================================\n" +
+                            " Artist: " + response.data[j].lineup[0] +
+                            "\n Venue: " + response.data[j].venue.name +
+                            "\n Venue Location: " + response.data[j].venue.city + ", " + response.data[j].venue.country +
+                            "\n Date: " + moment(response.data[j].datetime.replace("T", " ")).format("LLL")
 
-                    );
-                };
-            } else {
-                console.log("No results found for " + search)
+                        );
+                    };
+                } else {
+                    console.log("No results found for " + search)
+                }
             }
-        }
-    );
+        );
+    }
 };
 //For Spotify-This-Song
 function spotifyThisSong(search) {
