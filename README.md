@@ -8,11 +8,19 @@ LIRI means Language Interpretation and Recognition Interface and, also, LIRI is 
   <li><b>do-what-it-says</b></li> - This command takes information from the file random.txt. LIRI reads this information and tuns the command given for the argument referenced in the document. </li>
   </ul>
   <h2>How does LIRI works?</h2>
-  <h3</h3>
+  <h3<Before getting started/h3>
   LIRI is a command interface application so, in order to run it, a command line terminal is needed. Also, fter cloning this respository you should create a .env file that it should contain:
   <ul>
-  SPOTIFY_ID = your-spotify-ID<
-  SPOTIFY_SECRET = your-spotify-secret
+  <li>SPOTIFY_ID = your-spotify-ID</li>
+  <li>SPOTIFY_SECRET = your-spotify-secret</li>
   </ul>
   If you don't know how to get your Spotify Id or yout Spotify Secret, please visit: https://developer.spotify.com/my-applications/#!/ and log in with your Spotify account. Register a new applcation to be used with the Spotify API. you can fill in whatever you would like for these fields.
   
+<h3> Installing dependencies</h3>
+Once the previous steps have been covered, run the command "npm install" in the same folder where package.json is located to download all the necessary dependencies. The dependencies that should be installed in this step are:
+<ul>
+  <li>Node-Spotify-API</li>
+  <li>Axios</li>
+  <li>Moment</li>
+  <li>DotENV</li>
+  </ul>
