@@ -11,30 +11,25 @@ var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 
 var command = process.argv[2];
-var nodeArgs = process.argv;
-var search = "";
-for (var i = 3; i < nodeArgs.length; i++) {
-    if (i > 3 && i < nodeArgs.length) {
-        search = search + "+" + nodeArgs[i];
-    }
-    else {
-        search += nodeArgs[i];
-    }
-}
+var search = process.argv.slice(3).join(" ");
+var userCommand =process.argv.slice(2).join(" ");
+var thisCommand = "\nUser Command:" + userCommand+"\n";
 
 //Switch to select  the command to use
 switch (command) {
-    //concert-this >>
     case ("concert-this"):
+    logginIt(thisCommand);
         concertThis(search);
         break;
     case ("spotify-this-song"):
         if (search === "") {
             search = "The+Sign+Ace+of+Base";
         }
+        logginIt(thisCommand);
         spotifyThisSong(search);
         break;
     case ("movie-this"):
+    logginIt(thisCommand);
         movieThis(search);
         break;
     case ("do-what-it-says"):
@@ -47,27 +42,27 @@ switch (command) {
 //For Movie-This
 function movieThis(search) {
     if (search === "" || search === undefined) {
-        console.log(
-            " If you haven't watched 'Mr. Nobody', then you should: http://www.imdb.com/title/tt0485947/" +
-            "\n It's on Netflix!!"
-        );
+        var isUndefined =[
+            " If you haven't watched 'Mr. Nobody', then you should: http://www.imdb.com/title/tt0485947/",
+            " It's on Netflix!"].join("\n");
+            logginIt(isUndefined);
     } else {
         var queryUrl = "http://www.omdbapi.com/?t=" + search + "&tomatoes=true&apikey=trilogy";
         axios.get(queryUrl).then(
             function (response) {
-                console.log(
-                    "\n====================================================" +
-                    "\n Title: " + response.data.Title +
-                    "\n Release Year: " + response.data.Year +
-                    "\n IMDB Rating: " + response.data.imdbRating +
-                    "\n Rotten Tomatoes Rating: " + response.data.Ratings[1].Value +
-                    "\n Country: " + response.data.Country +
-                    "\n Language: " + response.data.Language +
-                    "\n Plot: " + response.data.Plot +
-                    "\n Actors: " + response.data.Actors +
-                    "\n====================================================\n"
-
-                );//End console log
+                var dataOmdb =[
+                    "====================================================",
+                    " Title: " + response.data.Title,
+                    " Release Year: " + response.data.Year,
+                    " IMDB Rating: " + response.data.imdbRating,
+                    " Rotten Tomatoes Rating: " + response.data.Ratings[1].Value,
+                    " Country: " + response.data.Country,
+                    " Language: " + response.data.Language,
+                    " Plot: " + response.data.Plot,
+                    " Actors: " + response.data.Actors,
+                    "===================================================="
+                ].join("\n");//End console log
+                logginIt(dataOmdb);
             } //End function
         );//end axios
     }//end Else
@@ -76,26 +71,33 @@ function movieThis(search) {
 //For Concert-This
 function concertThis(search) {
     if (search === "" || search === undefined) {
-        console.log("Please add a band name or an artist name to your search");
+        var isUndefined =["Please add a band name or an artist name to your search\n"];
+        logginIt(isUndefined);
     } else {
         var bandUrl = "https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp";
+        
         axios.get(bandUrl).then(
             function (response) {
                 if (response.data.length > 0) {
-                    console.log("========================================");
-                    console.log("Found " + (response.data.length) + " " + search + " Concerts: ");
+                    var concertResults = ["\n========================================",
+                                        "Found " + (response.data.length) + " " + search + " Concerts"].join("\n");
+                    logginIt(concertResults);
                     for (var j = 0; j < response.data.length; j++) {
-                        console.log(
-                            "========================================\n" +
-                            " Artist: " + response.data[j].lineup[0] +
-                            "\n Venue: " + response.data[j].venue.name +
-                            "\n Venue Location: " + response.data[j].venue.city + ", " + response.data[j].venue.country +
-                            "\n Date: " + moment(response.data[j].datetime.replace("T", " ")).format("LLL")
-
-                        );
+                        var fixDate = moment(response.data[j].datetime.replace("T", " ")).format("LLL");
+                        var concertLocation = response.data[j].venue.city + ", " + response.data[j].venue.country
+                        var jsonConcert = response.data[j];
+                        var results =[
+                            "\n========================================",
+                            " Artist: " + jsonConcert.lineup[0] ,
+                            " Venue: " + jsonConcert.venue.name ,
+                            " Venue Location: " + concertLocation,
+                            " Date: " + fixDate
+                        ].join("\n");
+                        logginIt(results);
                     };
                 } else {
-                    console.log("No results found for " + search)
+                    var noConcerts = "No results found for " + search;
+                    logginIt(noConcerts);
                 }
             }
         );
@@ -106,19 +108,21 @@ function spotifyThisSong(search) {
 
     spotify.search({ type: 'track', query: search, limit: 5 })
         .then(function (response) {
-            console.log(
-                "========================================\n" +
+            var spotifyResults =[
+                "\n========================================" ,
                 "Found " + response.tracks.items.length + " songs related to your search"
-            );
+            ].join("\n");
+            logginIt(spotifyResults);
 
             for (var k = 0; k < response.tracks.items.length; k++) {
-                console.log(
-                    "========================================" +
-                    "\n Artist: " + response.tracks.items[k].artists[0].name +
-                    "\n Song: " + response.tracks.items[k].name +
-                    "\n Song Preview URL: " + response.tracks.items[k].preview_url +
-                    "\n Album: " + response.tracks.items[k].album.name
-                );
+                var spotifySongs =[
+                    "\n========================================" ,
+                    " Artist: " + response.tracks.items[k].artists[0].name ,
+                    " Song: " + response.tracks.items[k].name ,
+                    " Song Preview URL: " + response.tracks.items[k].preview_url,
+                    " Album: " + response.tracks.items[k].album.name
+                ].join("\n");
+                logginIt(spotifySongs);
             }
         })
         .catch(function (err) {
@@ -143,5 +147,20 @@ function doWhat() {
                 concertThis(dataArr[1]);
             }
         }
+    });
+};
+
+/*function logCommand(){
+    
+    fs.appendFile("log.txt", thisCommand, function(err){
+        if (err) throw err;
+        console.log(toLog);
+    });
+};*/
+
+function logginIt(toLog){
+    fs.appendFile("log.txt", toLog, function(err){
+        if (err) throw err;
+        console.log(toLog);
     });
 };
