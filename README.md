@@ -26,10 +26,11 @@ Once the previous steps have been covered, run the command "npm install" in the 
   </ul>
   <h3> Running LIRI</h3>
   In order to make the commands mentioned above work you need to run them like this:
-  <ul><li><b>node liri.js spotify-this-song</b> [song name] </li>
+  <ul><li><b>node liri.js spotify-this-song</b> [song name]</li>
   <li><b>node liri.js movie-this</b> [movie title] </li>
   <li><b>node liri.js concert-this</b> [band name] </li>
   <li><b>node liri.js do-what-it-says</b> </li>
 </ul>
-  
+  <h3> Extra</h3>
+  All LIRI searches are stored in log.txt. This file is generated automatically after  the first search is done. 
   
