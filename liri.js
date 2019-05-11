@@ -104,7 +104,7 @@ function concertThis(search) {
 //For Spotify-This-Song
 function spotifyThisSong(search) {
 
-    spotify.search({ type: 'track', query: search })
+    spotify.search({ type: 'track', query: search, limit: 5 })
         .then(function (response) {
             console.log(
                 "========================================\n" +
