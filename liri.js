@@ -103,7 +103,7 @@ function concertThis(search) {
 //For Spotify-This-Song
 function spotifyThisSong(search) {
     if (search === "" || search=== undefined) {
-        search = "The+Sign+Ace+of+Base";
+        search = "The Sign Ace of Base";
     }
     spotify.search({ type: 'track', query: search, limit: 5 })
         .then(function (response) {
