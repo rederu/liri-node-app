@@ -38,7 +38,7 @@ switch (command) {
         movieThis(search);
         break;
     case ("do-what-it-says"):
-            doWhat();
+        doWhat();
         break;
     default:
         console.log("Please type concert-this / spotify-this-song /movie-this / do-what-it-says + your search. Try again.");
@@ -125,16 +125,23 @@ function spotifyThisSong(search) {
             console.log(err);
         });
 };
-
-function doWhat(){
-    fs.readFile("random.txt","utf8",function(error, data){
-        if(error){
+//For do-what-it-says
+function doWhat() {
+    //read file
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
             return console.log(error);
-        }else{
+        } else {
+            //split string when it finds a ","
             var dataArr = data.split(",");
-            console.log(dataArr);
-            spotifyThisSong(dataArr[1]);
+            if (dataArr[0] === "spotify-this-song") {
+                spotifyThisSong(dataArr[1]);
+            }
+            else if (dataArr[0] === "movie-this") {
+                movieThis(dataArr[1]);
+            }else if(dataArr[0] === "concert-this"){
+                concertThis(dataArr[1]);
+            }
         }
     });
-
-}
+};
